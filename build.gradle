@@ -67,7 +67,7 @@ dependencies {
     compile "net.sf.jasperreports:jasperreports:6.5.1"
     compile "org.slf4j:slf4j-ext"
     compile "com.github.tomakehurst:wiremock:1.58"
-
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
     compile group: 'javax.interceptor', name: 'javax.interceptor-api', version: '1.2'
 
     testCompile "junit:junit"
@@ -77,6 +77,8 @@ dependencies {
     testCompile('org.flywaydb.flyway-test-extensions:flyway-spring-test:4.1.0')
     testCompile 'org.springframework.security:spring-security-test'
     testCompile "org.springframework:spring-test"
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
+
 
     testCompile "com.jayway.restassured:rest-assured:2.7.0"
     testCompile "guru.nidi.raml:raml-tester:0.8.15"
@@ -191,17 +193,6 @@ configure(checkApiIsRaml) {
     description = 'Verify that the api-specification is valid RAML'
 }
 
-jacocoTestReport {
-    group = "reporting"
-    description = "Generate Jacoco coverage reports after running tests."
-    reports {
-        xml.enabled false
-        html.enabled true
-        csv.enabled false
-    }
-
-       additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
-}
 
 checkstyle {
     toolVersion = "8.12"
@@ -350,7 +341,6 @@ check {
 apply from: "registration.gradle"
 
 build {
-    dependsOn jacocoTestReport
     dependsOn check
     dependsOn ramlToHtml
     dependsOn copyRamlHtmlToBuild
